@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "884439272492",
+    "project_id": "urhonor2",
+    "storage_bucket": "urhonor2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:884439272492:android:0f06702af80e85a23c1589",
+        "android_client_info": {
+          "package_name": "com.mycompany.urhonor"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "884439272492-2rqem3e46s43sse974kmo5l8cu7hvu5q.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.mycompany.urhonor",
+            "certificate_hash": "9bbb3186b2189ef16d8f272bdab59362c395cbb4"
+          }
+        },
+        {
+          "client_id": "884439272492-082d3cc984fa5v78li5ma5fls923r5s4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDnOWQKI228qL9gDZZnM3-JqmS5ZS5RZFc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "884439272492-082d3cc984fa5v78li5ma5fls923r5s4.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "884439272492-l089q6g1gofdoul8vjihvpstdjn9rmtr.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.mycompany.urhonor"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
