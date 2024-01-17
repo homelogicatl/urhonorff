@@ -15,3 +15,4 @@ export '/app_content/case_page/case_page_widget.dart' show CasePageWidget;
 export '/app_content/formplaintiff/formplaintiff_widget.dart'
     show FormplaintiffWidget;
 export '/profile/notification/notification_widget.dart' show NotificationWidget;
+export '/app_content/pageedit/pageedit_widget.dart' show PageeditWidget;

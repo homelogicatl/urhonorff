@@ -172,6 +172,14 @@ final parametersBuilderMap =
               data, 'notification', NotificationRecord.fromSnapshot),
         },
       ),
+  'Pageedit': (data) async => ParameterData(
+        allParams: {
+          'caseRef': await getDocumentParameter<CasesubRecord>(
+              data, 'caseRef', CasesubRecord.fromSnapshot),
+          'notif': await getDocumentParameter<NotificationRecord>(
+              data, 'notif', NotificationRecord.fromSnapshot),
+        },
+      ),
 };
 
 Map<String, dynamic> getInitialParameterData(Map<String, dynamic> data) {

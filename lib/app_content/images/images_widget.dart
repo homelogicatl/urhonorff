@@ -62,14 +62,22 @@ class _ImagesWidgetState extends State<ImagesWidget> {
             mainAxisSize: MainAxisSize.max,
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              Padding(
-                padding: EdgeInsetsDirectional.fromSTEB(20.0, 20.0, 0.0, 0.0),
-                child: Text(
-                  'Images',
-                  style: FlutterFlowTheme.of(context).bodyMedium.override(
-                        fontFamily: 'Poppins',
-                        fontWeight: FontWeight.w600,
-                      ),
+              Container(
+                width: double.infinity,
+                decoration: BoxDecoration(
+                  color: FlutterFlowTheme.of(context).tertiary,
+                ),
+                child: Padding(
+                  padding: EdgeInsetsDirectional.fromSTEB(0.0, 10.0, 0.0, 10.0),
+                  child: Text(
+                    'Images',
+                    textAlign: TextAlign.center,
+                    style: FlutterFlowTheme.of(context).bodyMedium.override(
+                          fontFamily: 'Poppins',
+                          fontSize: 20.0,
+                          fontWeight: FontWeight.w600,
+                        ),
+                  ),
                 ),
               ),
               Container(
@@ -79,7 +87,7 @@ class _ImagesWidgetState extends State<ImagesWidget> {
                   builder: (context) {
                     final images = widget.parameter1?.toList() ?? [];
                     return Wrap(
-                      spacing: 2.0,
+                      spacing: 1.0,
                       runSpacing: 0.0,
                       alignment: WrapAlignment.spaceEvenly,
                       crossAxisAlignment: WrapCrossAlignment.start,
@@ -93,50 +101,55 @@ class _ImagesWidgetState extends State<ImagesWidget> {
                           padding: EdgeInsetsDirectional.fromSTEB(
                               0.0, 20.0, 0.0, 0.0),
                           child: Container(
-                            width: 60.0,
-                            height: 100.0,
+                            width: 160.0,
                             decoration: BoxDecoration(),
                             child: Column(
                               mainAxisSize: MainAxisSize.max,
                               children: [
-                                InkWell(
-                                  splashColor: Colors.transparent,
-                                  focusColor: Colors.transparent,
-                                  hoverColor: Colors.transparent,
-                                  highlightColor: Colors.transparent,
-                                  onTap: () async {
-                                    await Navigator.push(
-                                      context,
-                                      PageTransition(
-                                        type: PageTransitionType.fade,
-                                        child: FlutterFlowExpandedImageView(
-                                          image: Image.network(
-                                            imagesItem,
-                                            fit: BoxFit.contain,
-                                            cacheHeight: 100,
+                                Container(
+                                  decoration: BoxDecoration(),
+                                  child: InkWell(
+                                    splashColor: Colors.transparent,
+                                    focusColor: Colors.transparent,
+                                    hoverColor: Colors.transparent,
+                                    highlightColor: Colors.transparent,
+                                    onTap: () async {
+                                      await Navigator.push(
+                                        context,
+                                        PageTransition(
+                                          type: PageTransitionType.fade,
+                                          child: FlutterFlowExpandedImageView(
+                                            image: Image.network(
+                                              imagesItem,
+                                              fit: BoxFit.contain,
+                                              cacheHeight: 100,
+                                            ),
+                                            allowRotation: false,
+                                            tag: imagesItem,
+                                            useHeroAnimation: true,
                                           ),
-                                          allowRotation: false,
-                                          tag: imagesItem,
-                                          useHeroAnimation: true,
                                         ),
-                                      ),
-                                    );
-                                    if (FFAppState().galleryViewCount >= 1) {
-                                      setState(() {
-                                        FFAppState().galleryViewCount =
-                                            FFAppState().galleryViewCount + -1;
-                                      });
-                                    }
-                                  },
-                                  child: Hero(
-                                    tag: imagesItem,
-                                    transitionOnUserGestures: true,
-                                    child: ClipRRect(
-                                      borderRadius: BorderRadius.circular(8.0),
-                                      child: Image.network(
-                                        imagesItem,
-                                        fit: BoxFit.cover,
-                                        cacheHeight: 100,
+                                      );
+                                      if (FFAppState().galleryViewCount >= 1) {
+                                        setState(() {
+                                          FFAppState().galleryViewCount =
+                                              FFAppState().galleryViewCount +
+                                                  -1;
+                                        });
+                                      }
+                                    },
+                                    child: Hero(
+                                      tag: imagesItem,
+                                      transitionOnUserGestures: true,
+                                      child: ClipRRect(
+                                        borderRadius:
+                                            BorderRadius.circular(8.0),
+                                        child: Image.network(
+                                          imagesItem,
+                                          height: 100.0,
+                                          fit: BoxFit.cover,
+                                          cacheHeight: 100,
+                                        ),
                                       ),
                                     ),
                                   ),

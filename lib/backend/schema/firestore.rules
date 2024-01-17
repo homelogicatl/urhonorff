@@ -20,13 +20,6 @@ service cloud.firestore {
     }
 
 
-    match /Users/{parent}/PunishmentsSub/{document} {
-      allow create: if request.auth.uid == parent;
-      allow read: if request.auth.uid == parent;
-      allow write: if request.auth.uid == parent;
-      allow delete: if false;
-    }
-
     match /Caserefnumber/{document} {
       allow create: if true;
       allow read: if true;
@@ -53,37 +46,32 @@ service cloud.firestore {
     }
 
 
-    match /Users/{parent}/Defendant/{document} {
+    match /Users/{parent}/Plaintiff/{document} {
       allow create: if request.auth.uid == parent;
       allow read: if request.auth.uid == parent;
       allow write: if request.auth.uid == parent;
       allow delete: if false;
     }
 
-    match /Users/{parent}/Plaintiff/{document} {
-      allow create: if true;
-      allow read: if true;
-      allow write: if true;
-      allow delete: if true;
-    }
-
-    match /{path=**}/Plaintiff/{document} {
-      allow read: if true;
-    }
-
-
-    match /audio/{document} {
-      allow create: if true;
-      allow read: if true;
-      allow write: if true;
-      allow delete: if true;
-    }
-
     match /Notification/{document} {
       allow create: if true;
       allow read: if true;
-      allow write: if true;
-      allow delete: if true;
+      allow write: if false;
+      allow delete: if false;
+    }
+
+    match /Pendingcases/{document} {
+      allow create: if true;
+      allow read: if true;
+      allow write: if false;
+      allow delete: if false;
+    }
+
+    match /Users/{parent}/Defendant/{document} {
+      allow create: if request.auth.uid == parent;
+      allow read: if request.auth.uid == parent;
+      allow write: if request.auth.uid == parent;
+      allow delete: if false;
     }
 
     match /ff_user_push_notifications/{id} {

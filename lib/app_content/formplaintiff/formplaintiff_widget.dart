@@ -3,10 +3,10 @@ import '/backend/backend.dart';
 import '/backend/firebase_storage/storage.dart';
 import '/backend/push_notifications/push_notifications_util.dart';
 import '/flutter_flow/flutter_flow_audio_player.dart';
+import '/flutter_flow/flutter_flow_button_tabbar.dart';
 import '/flutter_flow/flutter_flow_drop_down.dart';
 import '/flutter_flow/flutter_flow_expanded_image_view.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
-import '/flutter_flow/flutter_flow_radio_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_video_player.dart';
@@ -36,7 +36,8 @@ class FormplaintiffWidget extends StatefulWidget {
   _FormplaintiffWidgetState createState() => _FormplaintiffWidgetState();
 }
 
-class _FormplaintiffWidgetState extends State<FormplaintiffWidget> {
+class _FormplaintiffWidgetState extends State<FormplaintiffWidget>
+    with TickerProviderStateMixin {
   late FormplaintiffModel _model;
 
   final scaffoldKey = GlobalKey<ScaffoldState>();
@@ -49,14 +50,19 @@ class _FormplaintiffWidgetState extends State<FormplaintiffWidget> {
     _model.casetitleController ??= TextEditingController();
     _model.casetitleFocusNode ??= FocusNode();
 
+    _model.tabBarController = TabController(
+      vsync: this,
+      length: 3,
+      initialIndex: 0,
+    )..addListener(() => setState(() {}));
     _model.customPunishmentController ??= TextEditingController();
     _model.customPunishmentFocusNode ??= FocusNode();
 
     _model.finalPunishmentController ??= TextEditingController();
     _model.finalPunishmentFocusNode ??= FocusNode();
 
-    _model.textController4 ??= TextEditingController();
-    _model.textFieldFocusNode ??= FocusNode();
+    _model.defendantEmailController ??= TextEditingController();
+    _model.defendantEmailFocusNode ??= FocusNode();
 
     WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
   }
@@ -192,7 +198,7 @@ class _FormplaintiffWidgetState extends State<FormplaintiffWidget> {
                                                   width: 1.0,
                                                 ),
                                                 borderRadius:
-                                                    BorderRadius.circular(0.0),
+                                                    BorderRadius.circular(8.0),
                                               ),
                                               focusedBorder: OutlineInputBorder(
                                                 borderSide: BorderSide(
@@ -202,7 +208,7 @@ class _FormplaintiffWidgetState extends State<FormplaintiffWidget> {
                                                   width: 1.0,
                                                 ),
                                                 borderRadius:
-                                                    BorderRadius.circular(0.0),
+                                                    BorderRadius.circular(8.0),
                                               ),
                                               errorBorder: OutlineInputBorder(
                                                 borderSide: BorderSide(
@@ -212,7 +218,7 @@ class _FormplaintiffWidgetState extends State<FormplaintiffWidget> {
                                                   width: 1.0,
                                                 ),
                                                 borderRadius:
-                                                    BorderRadius.circular(0.0),
+                                                    BorderRadius.circular(8.0),
                                               ),
                                               focusedErrorBorder:
                                                   OutlineInputBorder(
@@ -223,7 +229,7 @@ class _FormplaintiffWidgetState extends State<FormplaintiffWidget> {
                                                   width: 1.0,
                                                 ),
                                                 borderRadius:
-                                                    BorderRadius.circular(0.0),
+                                                    BorderRadius.circular(8.0),
                                               ),
                                             ),
                                             style: FlutterFlowTheme.of(context)
@@ -283,6 +289,9 @@ class _FormplaintiffWidgetState extends State<FormplaintiffWidget> {
                                                         fontFamily: 'Poppins',
                                                         fontSize: 10.0,
                                                       ),
+                                              searchTextStyle:
+                                                  FlutterFlowTheme.of(context)
+                                                      .bodyMedium,
                                               textStyle:
                                                   FlutterFlowTheme.of(context)
                                                       .bodyMedium
@@ -634,7 +643,6 @@ class _FormplaintiffWidgetState extends State<FormplaintiffWidget> {
                                               child: Image.network(
                                                 multiimgvarItem,
                                                 width: 150.0,
-                                                height: 100.0,
                                                 fit: BoxFit.contain,
                                               ),
                                             ),
@@ -878,102 +886,92 @@ class _FormplaintiffWidgetState extends State<FormplaintiffWidget> {
                               color: FlutterFlowTheme.of(context)
                                   .secondaryBackground,
                             ),
-                            child: StreamBuilder<List<CasesubRecord>>(
-                              stream: queryCasesubRecord(
-                                singleRecord: true,
-                              ),
-                              builder: (context, snapshot) {
-                                // Customize what your widget looks like when it's loading.
-                                if (!snapshot.hasData) {
-                                  return Center(
-                                    child: SizedBox(
-                                      width: 50.0,
-                                      height: 50.0,
-                                      child: CircularProgressIndicator(
-                                        valueColor:
-                                            AlwaysStoppedAnimation<Color>(
-                                          Color(0xFFFF7100),
-                                        ),
-                                      ),
-                                    ),
-                                  );
-                                }
-                                List<CasesubRecord> listViewCasesubRecordList =
-                                    snapshot.data!;
-                                // Return an empty Container when the item does not exist.
-                                if (snapshot.data!.isEmpty) {
-                                  return Container();
-                                }
-                                final listViewCasesubRecord =
-                                    listViewCasesubRecordList.isNotEmpty
-                                        ? listViewCasesubRecordList.first
-                                        : null;
-                                return Builder(
+                            child: Column(
+                              mainAxisSize: MainAxisSize.max,
+                              children: [
+                                Builder(
                                   builder: (context) {
-                                    final plaintiffaudiofiles =
-                                        listViewCasesubRecord?.audiolist
-                                                ?.toList() ??
-                                            [];
-                                    return ListView.builder(
-                                      padding: EdgeInsets.zero,
-                                      shrinkWrap: true,
-                                      scrollDirection: Axis.vertical,
-                                      itemCount: plaintiffaudiofiles.length,
-                                      itemBuilder:
-                                          (context, plaintiffaudiofilesIndex) {
-                                        final plaintiffaudiofilesItem =
-                                            plaintiffaudiofiles[
-                                                plaintiffaudiofilesIndex];
+                                    final audiourl =
+                                        _model.uploadedFileUrls3.toList();
+                                    return Wrap(
+                                      spacing: 20.0,
+                                      runSpacing: 11.0,
+                                      alignment: WrapAlignment.spaceEvenly,
+                                      crossAxisAlignment:
+                                          WrapCrossAlignment.start,
+                                      direction: Axis.horizontal,
+                                      runAlignment: WrapAlignment.spaceEvenly,
+                                      verticalDirection: VerticalDirection.down,
+                                      clipBehavior: Clip.none,
+                                      children: List.generate(audiourl.length,
+                                          (audiourlIndex) {
+                                        final audiourlItem =
+                                            audiourl[audiourlIndex];
                                         return Padding(
                                           padding:
                                               EdgeInsetsDirectional.fromSTEB(
                                                   0.0, 10.0, 0.0, 10.0),
                                           child: Container(
-                                            width: 300.0,
-                                            height: 100.0,
+                                            width: 150.0,
                                             decoration: BoxDecoration(
                                               color:
                                                   FlutterFlowTheme.of(context)
                                                       .secondaryBackground,
                                             ),
-                                            child: Padding(
-                                              padding: EdgeInsetsDirectional
-                                                  .fromSTEB(
-                                                      20.0, 0.0, 20.0, 0.0),
-                                              child: FlutterFlowAudioPlayer(
-                                                audio: Audio.network(
-                                                  plaintiffaudiofilesItem,
-                                                  metas: Metas(
-                                                    id: 'sample3.mp3-7971fc04',
-                                                  ),
+                                            child: Column(
+                                              mainAxisSize: MainAxisSize.max,
+                                              children: [
+                                                Stack(
+                                                  children: [
+                                                    FlutterFlowAudioPlayer(
+                                                      audio: Audio.network(
+                                                        audiourlItem,
+                                                        metas: Metas(
+                                                          id: 'sample3.mp3-7971fc04',
+                                                          title:
+                                                              'Audio ${audiourlIndex.toString()}',
+                                                        ),
+                                                      ),
+                                                      titleTextStyle:
+                                                          FlutterFlowTheme.of(
+                                                                  context)
+                                                              .titleMedium
+                                                              .override(
+                                                                fontFamily:
+                                                                    'Poppins',
+                                                                fontSize: 16.0,
+                                                              ),
+                                                      playbackDurationTextStyle:
+                                                          FlutterFlowTheme.of(
+                                                                  context)
+                                                              .labelMedium,
+                                                      fillColor: FlutterFlowTheme
+                                                              .of(context)
+                                                          .secondaryBackground,
+                                                      playbackButtonColor:
+                                                          FlutterFlowTheme.of(
+                                                                  context)
+                                                              .primary,
+                                                      activeTrackColor:
+                                                          FlutterFlowTheme.of(
+                                                                  context)
+                                                              .alternate,
+                                                      elevation: 4.0,
+                                                      playInBackground:
+                                                          PlayInBackground
+                                                              .disabledRestoreOnForeground,
+                                                    ),
+                                                  ],
                                                 ),
-                                                titleTextStyle:
-                                                    FlutterFlowTheme.of(context)
-                                                        .titleLarge,
-                                                playbackDurationTextStyle:
-                                                    FlutterFlowTheme.of(context)
-                                                        .labelMedium,
-                                                fillColor:
-                                                    FlutterFlowTheme.of(context)
-                                                        .secondaryBackground,
-                                                playbackButtonColor:
-                                                    FlutterFlowTheme.of(context)
-                                                        .primary,
-                                                activeTrackColor:
-                                                    FlutterFlowTheme.of(context)
-                                                        .alternate,
-                                                elevation: 4.0,
-                                                playInBackground: PlayInBackground
-                                                    .disabledRestoreOnForeground,
-                                              ),
+                                              ],
                                             ),
                                           ),
                                         );
-                                      },
+                                      }),
                                     );
                                   },
-                                );
-                              },
+                                ),
+                              ],
                             ),
                           ),
                         ),
@@ -1178,9 +1176,10 @@ class _FormplaintiffWidgetState extends State<FormplaintiffWidget> {
                               ),
                             ),
                           ),
-                          if (_model.customPunishmentController.text == null ||
-                              _model.customPunishmentController.text == '')
-                            Container(
+                          Padding(
+                            padding: EdgeInsetsDirectional.fromSTEB(
+                                0.0, 0.0, 0.0, 20.0),
+                            child: Container(
                               width: double.infinity,
                               decoration: BoxDecoration(
                                 color: FlutterFlowTheme.of(context)
@@ -1189,369 +1188,467 @@ class _FormplaintiffWidgetState extends State<FormplaintiffWidget> {
                               child: Column(
                                 mainAxisSize: MainAxisSize.max,
                                 children: [
-                                  Row(
-                                    mainAxisSize: MainAxisSize.max,
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceEvenly,
-                                    children: [
-                                      Padding(
-                                        padding: EdgeInsetsDirectional.fromSTEB(
-                                            0.0, 20.0, 0.0, 20.0),
-                                        child: FlutterFlowRadioButton(
-                                          options: ['Fun', 'Not Fun', 'Custom']
-                                              .toList(),
-                                          onChanged: (val) => setState(() {}),
-                                          controller: _model
-                                                  .punishmentsValueController ??=
-                                              FormFieldController<String>(
-                                                  'Fun'),
-                                          optionHeight: 32.0,
-                                          textStyle:
-                                              FlutterFlowTheme.of(context)
-                                                  .labelMedium,
-                                          selectedTextStyle:
-                                              FlutterFlowTheme.of(context)
-                                                  .bodyMedium
-                                                  .override(
-                                                    fontFamily: 'Poppins',
-                                                    fontSize: 12.0,
-                                                  ),
-                                          buttonPosition:
-                                              RadioButtonPosition.left,
-                                          direction: Axis.horizontal,
-                                          radioButtonColor:
-                                              FlutterFlowTheme.of(context)
-                                                  .primary,
-                                          inactiveRadioButtonColor:
-                                              FlutterFlowTheme.of(context)
-                                                  .secondaryText,
-                                          toggleable: false,
-                                          horizontalAlignment:
-                                              WrapAlignment.start,
-                                          verticalAlignment:
-                                              WrapCrossAlignment.start,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  if (_model.punishmentsValue == 'Not Fun')
-                                    InkWell(
-                                      splashColor: Colors.transparent,
-                                      focusColor: Colors.transparent,
-                                      hoverColor: Colors.transparent,
-                                      highlightColor: Colors.transparent,
-                                      onTap: () async {},
-                                      child: Container(
-                                        width: 338.0,
-                                        decoration: BoxDecoration(
-                                          color: FlutterFlowTheme.of(context)
-                                              .secondaryBackground,
-                                        ),
-                                        child: FlutterFlowDropDown<String>(
-                                          controller: _model
-                                                  .notfundropValueController ??=
-                                              FormFieldController<String>(null),
-                                          options: ['Not fun st'],
-                                          onChanged: (val) => setState(() =>
-                                              _model.notfundropValue = val),
-                                          width: 300.0,
-                                          height: 50.0,
-                                          textStyle:
-                                              FlutterFlowTheme.of(context)
-                                                  .bodyMedium,
-                                          hintText:
-                                              'Please Select \"Not Fun\" Option...',
-                                          icon: Icon(
-                                            Icons.keyboard_arrow_down_rounded,
-                                            color: FlutterFlowTheme.of(context)
-                                                .secondaryText,
-                                            size: 24.0,
-                                          ),
-                                          fillColor:
-                                              FlutterFlowTheme.of(context)
-                                                  .secondaryBackground,
-                                          elevation: 2.0,
-                                          borderColor:
-                                              FlutterFlowTheme.of(context)
-                                                  .backgroundComponents,
-                                          borderWidth: 2.0,
-                                          borderRadius: 8.0,
-                                          margin:
-                                              EdgeInsetsDirectional.fromSTEB(
-                                                  16.0, 4.0, 16.0, 4.0),
-                                          hidesUnderline: true,
-                                          isSearchable: false,
-                                          isMultiSelect: false,
-                                        ),
-                                      ),
-                                    ),
-                                  if (_model.punishmentsValue == 'Fun')
-                                    Container(
-                                      width: 338.0,
+                                  Padding(
+                                    padding: EdgeInsetsDirectional.fromSTEB(
+                                        0.0, 0.0, 0.0, 20.0),
+                                    child: Container(
+                                      width: double.infinity,
+                                      height: 150.0,
                                       decoration: BoxDecoration(
                                         color: FlutterFlowTheme.of(context)
                                             .secondaryBackground,
                                       ),
-                                      child: FlutterFlowDropDown<String>(
-                                        controller: _model
-                                                .fundropValueController ??=
-                                            FormFieldController<String>(null),
-                                        options: ['fun stuff'],
-                                        onChanged: (val) => setState(
-                                            () => _model.fundropValue = val),
-                                        width: 300.0,
-                                        height: 50.0,
-                                        textStyle: FlutterFlowTheme.of(context)
-                                            .bodyMedium,
-                                        hintText:
-                                            'Please Select \"Fun\" Option...',
-                                        icon: Icon(
-                                          Icons.keyboard_arrow_down_rounded,
-                                          color: FlutterFlowTheme.of(context)
-                                              .secondaryText,
-                                          size: 24.0,
-                                        ),
-                                        fillColor: FlutterFlowTheme.of(context)
-                                            .secondaryBackground,
-                                        elevation: 2.0,
-                                        borderColor:
-                                            FlutterFlowTheme.of(context)
-                                                .backgroundComponents,
-                                        borderWidth: 2.0,
-                                        borderRadius: 8.0,
-                                        margin: EdgeInsetsDirectional.fromSTEB(
-                                            16.0, 4.0, 16.0, 4.0),
-                                        hidesUnderline: true,
-                                        isSearchable: false,
-                                        isMultiSelect: false,
-                                      ),
-                                    ),
-                                ],
-                              ),
-                            ),
-                          Container(
-                            width: 338.0,
-                            decoration: BoxDecoration(
-                              color: FlutterFlowTheme.of(context)
-                                  .secondaryBackground,
-                            ),
-                            child: Column(
-                              mainAxisSize: MainAxisSize.max,
-                              children: [
-                                Row(
-                                  mainAxisSize: MainAxisSize.max,
-                                  mainAxisAlignment: MainAxisAlignment.end,
-                                  children: [
-                                    if (_model.punishmentsValue == 'Custom')
-                                      Expanded(
-                                        child: TextFormField(
-                                          controller:
-                                              _model.customPunishmentController,
-                                          focusNode:
-                                              _model.customPunishmentFocusNode,
-                                          onChanged: (_) =>
-                                              EasyDebounce.debounce(
-                                            '_model.customPunishmentController',
-                                            Duration(milliseconds: 0),
-                                            () => setState(() {}),
-                                          ),
-                                          obscureText: false,
-                                          decoration: InputDecoration(
-                                            hintText: 'Enter Punishment Here *',
-                                            hintStyle:
-                                                FlutterFlowTheme.of(context)
-                                                    .bodyLarge,
-                                            enabledBorder: OutlineInputBorder(
-                                              borderSide: BorderSide(
-                                                color:
+                                      child: InkWell(
+                                        splashColor: Colors.transparent,
+                                        focusColor: Colors.transparent,
+                                        hoverColor: Colors.transparent,
+                                        highlightColor: Colors.transparent,
+                                        onDoubleTap: () async {
+                                          setState(() {
+                                            _model.finalPunishmentController
+                                                ?.clear();
+                                          });
+                                        },
+                                        child: Column(
+                                          children: [
+                                            Align(
+                                              alignment: Alignment(0.0, 0),
+                                              child: FlutterFlowButtonTabBar(
+                                                useToggleButtonStyle: true,
+                                                labelStyle:
                                                     FlutterFlowTheme.of(context)
-                                                        .backgroundComponents,
-                                                width: 2.0,
+                                                        .titleMedium
+                                                        .override(
+                                                          fontFamily: 'Poppins',
+                                                          fontSize: 14.0,
+                                                        ),
+                                                unselectedLabelStyle:
+                                                    TextStyle(),
+                                                labelColor:
+                                                    FlutterFlowTheme.of(context)
+                                                        .primary,
+                                                unselectedLabelColor:
+                                                    FlutterFlowTheme.of(context)
+                                                        .secondaryText,
+                                                backgroundColor:
+                                                    Color(0xBAE0E0E0),
+                                                unselectedBackgroundColor:
+                                                    FlutterFlowTheme.of(context)
+                                                        .primaryBackground,
+                                                borderColor:
+                                                    FlutterFlowTheme.of(context)
+                                                        .primary,
+                                                unselectedBorderColor:
+                                                    FlutterFlowTheme.of(context)
+                                                        .accent2,
+                                                borderWidth: 1.0,
+                                                borderRadius: 8.0,
+                                                elevation: 0.0,
+                                                buttonMargin:
+                                                    EdgeInsetsDirectional
+                                                        .fromSTEB(
+                                                            8.0, 0.0, 8.0, 0.0),
+                                                padding: EdgeInsets.all(6.0),
+                                                tabs: [
+                                                  Tab(
+                                                    text: 'Fun',
+                                                  ),
+                                                  Tab(
+                                                    text: 'Not Fun',
+                                                  ),
+                                                  Tab(
+                                                    text: 'Custom',
+                                                  ),
+                                                ],
+                                                controller:
+                                                    _model.tabBarController,
+                                                onTap: (i) async {
+                                                  [
+                                                    () async {},
+                                                    () async {},
+                                                    () async {}
+                                                  ][i]();
+                                                },
                                               ),
-                                              borderRadius:
-                                                  BorderRadius.circular(10.0),
                                             ),
-                                            focusedBorder: OutlineInputBorder(
-                                              borderSide: BorderSide(
-                                                color: Color(0x00000000),
-                                                width: 2.0,
-                                              ),
-                                              borderRadius:
-                                                  BorderRadius.circular(10.0),
-                                            ),
-                                            errorBorder: OutlineInputBorder(
-                                              borderSide: BorderSide(
-                                                color: Color(0x00000000),
-                                                width: 2.0,
-                                              ),
-                                              borderRadius:
-                                                  BorderRadius.circular(10.0),
-                                            ),
-                                            focusedErrorBorder:
-                                                OutlineInputBorder(
-                                              borderSide: BorderSide(
-                                                color: Color(0x00000000),
-                                                width: 2.0,
-                                              ),
-                                              borderRadius:
-                                                  BorderRadius.circular(10.0),
-                                            ),
-                                            suffixIcon: _model
-                                                    .customPunishmentController!
-                                                    .text
-                                                    .isNotEmpty
-                                                ? InkWell(
-                                                    onTap: () async {
-                                                      _model
-                                                          .customPunishmentController
-                                                          ?.clear();
-                                                      setState(() {});
-                                                    },
-                                                    child: Icon(
-                                                      Icons.clear,
-                                                      color:
-                                                          FlutterFlowTheme.of(
-                                                                  context)
-                                                              .secondaryText,
-                                                      size: 22.0,
+                                            Expanded(
+                                              child: TabBarView(
+                                                controller:
+                                                    _model.tabBarController,
+                                                children: [
+                                                  Container(
+                                                    decoration: BoxDecoration(),
+                                                    child: Padding(
+                                                      padding:
+                                                          EdgeInsetsDirectional
+                                                              .fromSTEB(
+                                                                  10.0,
+                                                                  20.0,
+                                                                  10.0,
+                                                                  10.0),
+                                                      child: Container(
+                                                        width: 338.0,
+                                                        decoration:
+                                                            BoxDecoration(
+                                                          color: FlutterFlowTheme
+                                                                  .of(context)
+                                                              .secondaryBackground,
+                                                        ),
+                                                        child:
+                                                            FlutterFlowDropDown<
+                                                                String>(
+                                                          controller: _model
+                                                                  .fundropValueController ??=
+                                                              FormFieldController<
+                                                                  String>(null),
+                                                          options: [
+                                                            'Pie to the Face',
+                                                            'Sing  song  of winner\'s choosing',
+                                                            'Do  poplular dance Choreography',
+                                                            ''
+                                                          ],
+                                                          onChanged:
+                                                              (val) async {
+                                                            setState(() => _model
+                                                                    .fundropValue =
+                                                                val);
+                                                            setState(() {
+                                                              _model.finalPunishmentController
+                                                                      ?.text =
+                                                                  _model
+                                                                      .fundropValue!;
+                                                            });
+                                                            setState(() {
+                                                              _model
+                                                                  .notfundropValueController
+                                                                  ?.reset();
+                                                            });
+                                                            setState(() {
+                                                              _model
+                                                                  .customPunishmentController
+                                                                  ?.clear();
+                                                            });
+                                                          },
+                                                          width: 300.0,
+                                                          height: 50.0,
+                                                          textStyle:
+                                                              FlutterFlowTheme.of(
+                                                                      context)
+                                                                  .bodyMedium,
+                                                          hintText:
+                                                              'Please Select \"Fun\" Option...',
+                                                          icon: Icon(
+                                                            Icons
+                                                                .keyboard_arrow_down_rounded,
+                                                            color: FlutterFlowTheme
+                                                                    .of(context)
+                                                                .secondaryText,
+                                                            size: 24.0,
+                                                          ),
+                                                          fillColor: FlutterFlowTheme
+                                                                  .of(context)
+                                                              .secondaryBackground,
+                                                          elevation: 2.0,
+                                                          borderColor:
+                                                              FlutterFlowTheme.of(
+                                                                      context)
+                                                                  .backgroundComponents,
+                                                          borderWidth: 2.0,
+                                                          borderRadius: 8.0,
+                                                          margin:
+                                                              EdgeInsetsDirectional
+                                                                  .fromSTEB(
+                                                                      16.0,
+                                                                      4.0,
+                                                                      16.0,
+                                                                      4.0),
+                                                          hidesUnderline: true,
+                                                          isSearchable: false,
+                                                          isMultiSelect: false,
+                                                        ),
+                                                      ),
                                                     ),
-                                                  )
-                                                : null,
-                                          ),
-                                          style: FlutterFlowTheme.of(context)
-                                              .bodyMedium,
-                                          validator: _model
-                                              .customPunishmentControllerValidator
-                                              .asValidator(context),
-                                        ),
-                                      ),
-                                  ],
-                                ),
-                                Row(
-                                  mainAxisSize: MainAxisSize.max,
-                                  mainAxisAlignment: MainAxisAlignment.end,
-                                  children: [
-                                    Padding(
-                                      padding: EdgeInsetsDirectional.fromSTEB(
-                                          0.0, 0.0, 0.0, 30.0),
-                                      child: Text(
-                                        '*Punishment must be approved by Defendant',
-                                        style: FlutterFlowTheme.of(context)
-                                            .bodyMedium
-                                            .override(
-                                              fontFamily: 'Poppins',
-                                              color:
-                                                  FlutterFlowTheme.of(context)
-                                                      .primary,
-                                              fontSize: 10.0,
+                                                  ),
+                                                  Container(
+                                                    decoration: BoxDecoration(),
+                                                    child: Padding(
+                                                      padding:
+                                                          EdgeInsetsDirectional
+                                                              .fromSTEB(
+                                                                  10.0,
+                                                                  20.0,
+                                                                  10.0,
+                                                                  10.0),
+                                                      child: Container(
+                                                        width: 338.0,
+                                                        decoration:
+                                                            BoxDecoration(
+                                                          color: FlutterFlowTheme
+                                                                  .of(context)
+                                                              .secondaryBackground,
+                                                        ),
+                                                        child:
+                                                            FlutterFlowDropDown<
+                                                                String>(
+                                                          controller: _model
+                                                                  .notfundropValueController ??=
+                                                              FormFieldController<
+                                                                  String>(null),
+                                                          options: [
+                                                            'Wash Winners Car',
+                                                            'Wash and fold a load of winner\'s Laundry',
+                                                            'Pick up trash on the side of the rd',
+                                                            'Do a chore of the winner\'s choosing'
+                                                          ],
+                                                          onChanged:
+                                                              (val) async {
+                                                            setState(() => _model
+                                                                    .notfundropValue =
+                                                                val);
+                                                            setState(() {
+                                                              _model.finalPunishmentController
+                                                                      ?.text =
+                                                                  _model
+                                                                      .notfundropValue!;
+                                                            });
+                                                            setState(() {
+                                                              _model
+                                                                  .fundropValueController
+                                                                  ?.reset();
+                                                            });
+                                                            setState(() {
+                                                              _model
+                                                                  .customPunishmentController
+                                                                  ?.clear();
+                                                            });
+                                                          },
+                                                          width: 300.0,
+                                                          height: 50.0,
+                                                          textStyle:
+                                                              FlutterFlowTheme.of(
+                                                                      context)
+                                                                  .bodyMedium,
+                                                          hintText:
+                                                              'Please Select \"Not Fun\" Option...',
+                                                          icon: Icon(
+                                                            Icons
+                                                                .keyboard_arrow_down_rounded,
+                                                            color: FlutterFlowTheme
+                                                                    .of(context)
+                                                                .secondaryText,
+                                                            size: 24.0,
+                                                          ),
+                                                          fillColor: FlutterFlowTheme
+                                                                  .of(context)
+                                                              .secondaryBackground,
+                                                          elevation: 2.0,
+                                                          borderColor:
+                                                              FlutterFlowTheme.of(
+                                                                      context)
+                                                                  .backgroundComponents,
+                                                          borderWidth: 2.0,
+                                                          borderRadius: 8.0,
+                                                          margin:
+                                                              EdgeInsetsDirectional
+                                                                  .fromSTEB(
+                                                                      16.0,
+                                                                      4.0,
+                                                                      16.0,
+                                                                      4.0),
+                                                          hidesUnderline: true,
+                                                          isSearchable: false,
+                                                          isMultiSelect: false,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  Column(
+                                                    mainAxisSize:
+                                                        MainAxisSize.max,
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .center,
+                                                    children: [
+                                                      Padding(
+                                                        padding:
+                                                            EdgeInsetsDirectional
+                                                                .fromSTEB(
+                                                                    0.0,
+                                                                    20.0,
+                                                                    0.0,
+                                                                    0.0),
+                                                        child: Container(
+                                                          width: 338.0,
+                                                          height: 50.0,
+                                                          decoration:
+                                                              BoxDecoration(
+                                                            color: FlutterFlowTheme
+                                                                    .of(context)
+                                                                .secondaryBackground,
+                                                          ),
+                                                          child: TextFormField(
+                                                            controller: _model
+                                                                .customPunishmentController,
+                                                            focusNode: _model
+                                                                .customPunishmentFocusNode,
+                                                            onChanged: (_) =>
+                                                                EasyDebounce
+                                                                    .debounce(
+                                                              '_model.customPunishmentController',
+                                                              Duration(
+                                                                  milliseconds:
+                                                                      0),
+                                                              () async {
+                                                                setState(() {
+                                                                  _model.finalPunishmentController
+                                                                          ?.text =
+                                                                      _model
+                                                                          .customPunishmentController
+                                                                          .text;
+                                                                });
+                                                                setState(() {
+                                                                  _model
+                                                                      .fundropValueController
+                                                                      ?.reset();
+                                                                  _model
+                                                                      .notfundropValueController
+                                                                      ?.reset();
+                                                                });
+                                                              },
+                                                            ),
+                                                            obscureText: false,
+                                                            decoration:
+                                                                InputDecoration(
+                                                              labelText:
+                                                                  'Custom Punishment',
+                                                              labelStyle:
+                                                                  FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .bodyMedium
+                                                                      .override(
+                                                                        fontFamily:
+                                                                            'Poppins',
+                                                                        color: FlutterFlowTheme.of(context)
+                                                                            .primaryText,
+                                                                      ),
+                                                              hintText:
+                                                                  'Type in Custom  Punishment',
+                                                              hintStyle:
+                                                                  FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .bodyLarge,
+                                                              enabledBorder:
+                                                                  OutlineInputBorder(
+                                                                borderSide:
+                                                                    BorderSide(
+                                                                  color: FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .backgroundComponents,
+                                                                  width: 2.0,
+                                                                ),
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                            10.0),
+                                                              ),
+                                                              focusedBorder:
+                                                                  OutlineInputBorder(
+                                                                borderSide:
+                                                                    BorderSide(
+                                                                  color: Color(
+                                                                      0x00000000),
+                                                                  width: 2.0,
+                                                                ),
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                            10.0),
+                                                              ),
+                                                              errorBorder:
+                                                                  OutlineInputBorder(
+                                                                borderSide:
+                                                                    BorderSide(
+                                                                  color: Color(
+                                                                      0x00000000),
+                                                                  width: 2.0,
+                                                                ),
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                            10.0),
+                                                              ),
+                                                              focusedErrorBorder:
+                                                                  OutlineInputBorder(
+                                                                borderSide:
+                                                                    BorderSide(
+                                                                  color: Color(
+                                                                      0x00000000),
+                                                                  width: 2.0,
+                                                                ),
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                            10.0),
+                                                              ),
+                                                              suffixIcon: _model
+                                                                      .customPunishmentController!
+                                                                      .text
+                                                                      .isNotEmpty
+                                                                  ? InkWell(
+                                                                      onTap:
+                                                                          () async {
+                                                                        _model
+                                                                            .customPunishmentController
+                                                                            ?.clear();
+                                                                        setState(
+                                                                            () {
+                                                                          _model
+                                                                              .finalPunishmentController
+                                                                              ?.text = _model.customPunishmentController.text;
+                                                                        });
+                                                                        setState(
+                                                                            () {
+                                                                          _model
+                                                                              .fundropValueController
+                                                                              ?.reset();
+                                                                          _model
+                                                                              .notfundropValueController
+                                                                              ?.reset();
+                                                                        });
+                                                                        setState(
+                                                                            () {});
+                                                                      },
+                                                                      child:
+                                                                          Icon(
+                                                                        Icons
+                                                                            .clear,
+                                                                        color: FlutterFlowTheme.of(context)
+                                                                            .secondaryText,
+                                                                        size:
+                                                                            22.0,
+                                                                      ),
+                                                                    )
+                                                                  : null,
+                                                            ),
+                                                            style: FlutterFlowTheme
+                                                                    .of(context)
+                                                                .bodyMedium,
+                                                            validator: _model
+                                                                .customPunishmentControllerValidator
+                                                                .asValidator(
+                                                                    context),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ],
+                                              ),
                                             ),
+                                          ],
+                                        ),
                                       ),
                                     ),
-                                  ],
-                                ),
-                              ],
-                            ),
-                          ),
-                          Padding(
-                            padding: EdgeInsetsDirectional.fromSTEB(
-                                0.0, 0.0, 0.0, 10.0),
-                            child: Container(
-                              width: 338.0,
-                              decoration: BoxDecoration(
-                                color: FlutterFlowTheme.of(context)
-                                    .secondaryBackground,
-                              ),
-                              child: Column(
-                                mainAxisSize: MainAxisSize.max,
-                                children: [
-                                  Row(
-                                    mainAxisSize: MainAxisSize.max,
-                                    mainAxisAlignment: MainAxisAlignment.end,
-                                    children: [
-                                      if (_model.punishmentsValue == 'Custom')
-                                        Expanded(
-                                          child: TextFormField(
-                                            controller: _model
-                                                .finalPunishmentController,
-                                            focusNode:
-                                                _model.finalPunishmentFocusNode,
-                                            onChanged: (_) =>
-                                                EasyDebounce.debounce(
-                                              '_model.finalPunishmentController',
-                                              Duration(milliseconds: 0),
-                                              () => setState(() {}),
-                                            ),
-                                            obscureText: false,
-                                            decoration: InputDecoration(
-                                              hintText: 'Final Punishment',
-                                              hintStyle:
-                                                  FlutterFlowTheme.of(context)
-                                                      .bodyLarge,
-                                              enabledBorder: OutlineInputBorder(
-                                                borderSide: BorderSide(
-                                                  color: FlutterFlowTheme.of(
-                                                          context)
-                                                      .backgroundComponents,
-                                                  width: 2.0,
-                                                ),
-                                                borderRadius:
-                                                    BorderRadius.circular(10.0),
-                                              ),
-                                              focusedBorder: OutlineInputBorder(
-                                                borderSide: BorderSide(
-                                                  color: Color(0x00000000),
-                                                  width: 2.0,
-                                                ),
-                                                borderRadius:
-                                                    BorderRadius.circular(10.0),
-                                              ),
-                                              errorBorder: OutlineInputBorder(
-                                                borderSide: BorderSide(
-                                                  color: Color(0x00000000),
-                                                  width: 2.0,
-                                                ),
-                                                borderRadius:
-                                                    BorderRadius.circular(10.0),
-                                              ),
-                                              focusedErrorBorder:
-                                                  OutlineInputBorder(
-                                                borderSide: BorderSide(
-                                                  color: Color(0x00000000),
-                                                  width: 2.0,
-                                                ),
-                                                borderRadius:
-                                                    BorderRadius.circular(10.0),
-                                              ),
-                                              suffixIcon: _model
-                                                      .finalPunishmentController!
-                                                      .text
-                                                      .isNotEmpty
-                                                  ? InkWell(
-                                                      onTap: () async {
-                                                        _model
-                                                            .finalPunishmentController
-                                                            ?.clear();
-                                                        setState(() {});
-                                                      },
-                                                      child: Icon(
-                                                        Icons.clear,
-                                                        color:
-                                                            FlutterFlowTheme.of(
-                                                                    context)
-                                                                .secondaryText,
-                                                        size: 22.0,
-                                                      ),
-                                                    )
-                                                  : null,
-                                            ),
-                                            style: FlutterFlowTheme.of(context)
-                                                .bodyMedium,
-                                            validator: _model
-                                                .finalPunishmentControllerValidator
-                                                .asValidator(context),
-                                          ),
-                                        ),
-                                    ],
                                   ),
                                 ],
                               ),
@@ -1562,151 +1659,247 @@ class _FormplaintiffWidgetState extends State<FormplaintiffWidget> {
                     ),
                   ),
                 ),
-                StreamBuilder<List<CasesubRecord>>(
-                  stream: queryCasesubRecord(
-                    parent: currentUserReference,
-                    singleRecord: true,
-                  ),
-                  builder: (context, snapshot) {
-                    // Customize what your widget looks like when it's loading.
-                    if (!snapshot.hasData) {
-                      return Center(
-                        child: SizedBox(
-                          width: 50.0,
-                          height: 50.0,
-                          child: CircularProgressIndicator(
-                            valueColor: AlwaysStoppedAnimation<Color>(
-                              Color(0xFFFF7100),
-                            ),
-                          ),
-                        ),
-                      );
-                    }
-                    List<CasesubRecord> containerCasesubRecordList =
-                        snapshot.data!;
-                    // Return an empty Container when the item does not exist.
-                    if (snapshot.data!.isEmpty) {
-                      return Container();
-                    }
-                    final containerCasesubRecord =
-                        containerCasesubRecordList.isNotEmpty
-                            ? containerCasesubRecordList.first
-                            : null;
-                    return Container(
-                      width: MediaQuery.sizeOf(context).width * 0.9,
+                Container(
+                  decoration: BoxDecoration(),
+                  child: Padding(
+                    padding:
+                        EdgeInsetsDirectional.fromSTEB(20.0, 0.0, 20.0, 0.0),
+                    child: Container(
+                      width: double.infinity,
                       decoration: BoxDecoration(
                         color: FlutterFlowTheme.of(context).secondaryBackground,
-                      ),
-                      child: Container(
-                        width: double.infinity,
-                        decoration: BoxDecoration(
-                          color:
-                              FlutterFlowTheme.of(context).secondaryBackground,
-                          borderRadius: BorderRadius.circular(10.0),
-                          border: Border.all(
-                            color: FlutterFlowTheme.of(context).primary,
-                          ),
+                        borderRadius: BorderRadius.circular(10.0),
+                        border: Border.all(
+                          width: 1.0,
                         ),
-                        child: Column(
-                          mainAxisSize: MainAxisSize.max,
-                          children: [
-                            Padding(
-                              padding: EdgeInsetsDirectional.fromSTEB(
-                                  0.0, 20.0, 0.0, 20.0),
-                              child: Text(
-                                'Defendant Email',
-                                style: FlutterFlowTheme.of(context).bodyMedium,
+                      ),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.max,
+                        children: [
+                          Padding(
+                            padding: EdgeInsetsDirectional.fromSTEB(
+                                10.0, 20.0, 10.0, 0.0),
+                            child: Container(
+                              height: 100.0,
+                              decoration: BoxDecoration(),
+                              child: Column(
+                                mainAxisSize: MainAxisSize.max,
+                                children: [
+                                  TextFormField(
+                                    controller:
+                                        _model.finalPunishmentController,
+                                    focusNode: _model.finalPunishmentFocusNode,
+                                    onChanged: (_) => EasyDebounce.debounce(
+                                      '_model.finalPunishmentController',
+                                      Duration(milliseconds: 0),
+                                      () => setState(() {}),
+                                    ),
+                                    obscureText: false,
+                                    decoration: InputDecoration(
+                                      labelText: 'Selected Punishment',
+                                      hintText: 'Final Punishment',
+                                      hintStyle: FlutterFlowTheme.of(context)
+                                          .bodyLarge,
+                                      enabledBorder: OutlineInputBorder(
+                                        borderSide: BorderSide(
+                                          color: FlutterFlowTheme.of(context)
+                                              .backgroundComponents,
+                                          width: 2.0,
+                                        ),
+                                        borderRadius:
+                                            BorderRadius.circular(10.0),
+                                      ),
+                                      focusedBorder: OutlineInputBorder(
+                                        borderSide: BorderSide(
+                                          color: Color(0x00000000),
+                                          width: 2.0,
+                                        ),
+                                        borderRadius:
+                                            BorderRadius.circular(10.0),
+                                      ),
+                                      errorBorder: OutlineInputBorder(
+                                        borderSide: BorderSide(
+                                          color: Color(0x00000000),
+                                          width: 2.0,
+                                        ),
+                                        borderRadius:
+                                            BorderRadius.circular(10.0),
+                                      ),
+                                      focusedErrorBorder: OutlineInputBorder(
+                                        borderSide: BorderSide(
+                                          color: Color(0x00000000),
+                                          width: 2.0,
+                                        ),
+                                        borderRadius:
+                                            BorderRadius.circular(10.0),
+                                      ),
+                                      suffixIcon: _model
+                                              .finalPunishmentController!
+                                              .text
+                                              .isNotEmpty
+                                          ? InkWell(
+                                              onTap: () async {
+                                                _model.finalPunishmentController
+                                                    ?.clear();
+                                                setState(() {});
+                                              },
+                                              child: Icon(
+                                                Icons.clear,
+                                                color:
+                                                    FlutterFlowTheme.of(context)
+                                                        .secondaryText,
+                                                size: 22.0,
+                                              ),
+                                            )
+                                          : null,
+                                    ),
+                                    style:
+                                        FlutterFlowTheme.of(context).bodyMedium,
+                                    validator: _model
+                                        .finalPunishmentControllerValidator
+                                        .asValidator(context),
+                                  ),
+                                  Padding(
+                                    padding: EdgeInsetsDirectional.fromSTEB(
+                                        0.0, 0.0, 0.0, 10.0),
+                                    child: Text(
+                                      '*Punishment must be approved by Defendant',
+                                      style: FlutterFlowTheme.of(context)
+                                          .bodyMedium
+                                          .override(
+                                            fontFamily: 'Poppins',
+                                            color: FlutterFlowTheme.of(context)
+                                                .primary,
+                                            fontSize: 10.0,
+                                          ),
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
-                            Padding(
-                              padding: EdgeInsetsDirectional.fromSTEB(
-                                  0.0, 0.0, 0.0, 20.0),
-                              child: Container(
-                                width: 300.0,
-                                decoration: BoxDecoration(),
-                                child: Column(
-                                  mainAxisSize: MainAxisSize.max,
-                                  children: [
-                                    Padding(
-                                      padding: EdgeInsetsDirectional.fromSTEB(
-                                          8.0, 0.0, 8.0, 0.0),
-                                      child: TextFormField(
-                                        controller: _model.textController4,
-                                        focusNode: _model.textFieldFocusNode,
-                                        autofocus: true,
-                                        obscureText: false,
-                                        decoration: InputDecoration(
-                                          labelText:
-                                              'Enter defendant\'s email here',
-                                          labelStyle:
-                                              FlutterFlowTheme.of(context)
-                                                  .labelMedium,
-                                          hintStyle:
-                                              FlutterFlowTheme.of(context)
-                                                  .labelMedium,
-                                          enabledBorder: OutlineInputBorder(
-                                            borderSide: BorderSide(
-                                              color: Color(0xFFAFAFAF),
-                                              width: 2.0,
-                                            ),
-                                            borderRadius:
-                                                BorderRadius.circular(8.0),
+                          ),
+                          Padding(
+                            padding: EdgeInsetsDirectional.fromSTEB(
+                                0.0, 0.0, 0.0, 20.0),
+                            child: Container(
+                              width: 300.0,
+                              decoration: BoxDecoration(),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsetsDirectional.fromSTEB(0.0, 30.0, 0.0, 0.0),
+                  child: Container(
+                    width: MediaQuery.sizeOf(context).width * 0.9,
+                    decoration: BoxDecoration(
+                      color: FlutterFlowTheme.of(context).secondaryBackground,
+                    ),
+                    child: Container(
+                      width: double.infinity,
+                      decoration: BoxDecoration(
+                        color: FlutterFlowTheme.of(context).secondaryBackground,
+                        borderRadius: BorderRadius.circular(10.0),
+                        border: Border.all(
+                          color: FlutterFlowTheme.of(context).primary,
+                        ),
+                      ),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.max,
+                        children: [
+                          Padding(
+                            padding: EdgeInsetsDirectional.fromSTEB(
+                                0.0, 20.0, 0.0, 20.0),
+                            child: Text(
+                              'Defendant Email',
+                              style: FlutterFlowTheme.of(context).bodyMedium,
+                            ),
+                          ),
+                          Padding(
+                            padding: EdgeInsetsDirectional.fromSTEB(
+                                0.0, 0.0, 0.0, 20.0),
+                            child: Container(
+                              width: 300.0,
+                              decoration: BoxDecoration(),
+                              child: Column(
+                                mainAxisSize: MainAxisSize.max,
+                                children: [
+                                  Padding(
+                                    padding: EdgeInsetsDirectional.fromSTEB(
+                                        8.0, 0.0, 8.0, 0.0),
+                                    child: TextFormField(
+                                      controller:
+                                          _model.defendantEmailController,
+                                      focusNode: _model.defendantEmailFocusNode,
+                                      autofocus: true,
+                                      obscureText: false,
+                                      decoration: InputDecoration(
+                                        labelText:
+                                            'Enter defendant\'s email here',
+                                        labelStyle: FlutterFlowTheme.of(context)
+                                            .labelMedium,
+                                        hintStyle: FlutterFlowTheme.of(context)
+                                            .labelMedium,
+                                        enabledBorder: OutlineInputBorder(
+                                          borderSide: BorderSide(
+                                            color: Color(0xFFAFAFAF),
+                                            width: 2.0,
                                           ),
-                                          focusedBorder: OutlineInputBorder(
-                                            borderSide: BorderSide(
-                                              color:
-                                                  FlutterFlowTheme.of(context)
-                                                      .primary,
-                                              width: 2.0,
-                                            ),
-                                            borderRadius:
-                                                BorderRadius.circular(8.0),
-                                          ),
-                                          errorBorder: OutlineInputBorder(
-                                            borderSide: BorderSide(
-                                              color:
-                                                  FlutterFlowTheme.of(context)
-                                                      .error,
-                                              width: 2.0,
-                                            ),
-                                            borderRadius:
-                                                BorderRadius.circular(8.0),
-                                          ),
-                                          focusedErrorBorder:
-                                              OutlineInputBorder(
-                                            borderSide: BorderSide(
-                                              color:
-                                                  FlutterFlowTheme.of(context)
-                                                      .error,
-                                              width: 2.0,
-                                            ),
-                                            borderRadius:
-                                                BorderRadius.circular(8.0),
-                                          ),
+                                          borderRadius:
+                                              BorderRadius.circular(8.0),
                                         ),
-                                        style: FlutterFlowTheme.of(context)
-                                            .bodyMedium,
-                                        keyboardType:
-                                            TextInputType.emailAddress,
-                                        validator: _model
-                                            .textController4Validator
-                                            .asValidator(context),
+                                        focusedBorder: OutlineInputBorder(
+                                          borderSide: BorderSide(
+                                            color: FlutterFlowTheme.of(context)
+                                                .primary,
+                                            width: 2.0,
+                                          ),
+                                          borderRadius:
+                                              BorderRadius.circular(8.0),
+                                        ),
+                                        errorBorder: OutlineInputBorder(
+                                          borderSide: BorderSide(
+                                            color: FlutterFlowTheme.of(context)
+                                                .error,
+                                            width: 2.0,
+                                          ),
+                                          borderRadius:
+                                              BorderRadius.circular(8.0),
+                                        ),
+                                        focusedErrorBorder: OutlineInputBorder(
+                                          borderSide: BorderSide(
+                                            color: FlutterFlowTheme.of(context)
+                                                .error,
+                                            width: 2.0,
+                                          ),
+                                          borderRadius:
+                                              BorderRadius.circular(8.0),
+                                        ),
                                       ),
-                                    ),
-                                    Text(
-                                      _model.textController4.text,
                                       style: FlutterFlowTheme.of(context)
                                           .bodyMedium,
+                                      keyboardType: TextInputType.emailAddress,
+                                      validator: _model
+                                          .defendantEmailControllerValidator
+                                          .asValidator(context),
                                     ),
-                                  ],
-                                ),
+                                  ),
+                                  Text(
+                                    _model.defendantEmailController.text,
+                                    style:
+                                        FlutterFlowTheme.of(context).bodyMedium,
+                                  ),
+                                ],
                               ),
                             ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
-                    );
-                  },
+                    ),
+                  ),
                 ),
                 Container(
                   decoration: BoxDecoration(),
@@ -1745,9 +1938,14 @@ class _FormplaintiffWidgetState extends State<FormplaintiffWidget> {
                                 mainvideo: _model.uploadedFileUrl1,
                                 plaintiff: currentUserDisplayName,
                                 caseNumber: _model.casenumberoutput?.refNumber,
-                                defendantEmail: _model.textController4.text,
+                                defendantEmail:
+                                    _model.defendantEmailController.text,
                                 casetitle: _model.casetitleController.text,
                                 caseCategory: _model.casecategoryValue,
+                                funPunishmentPlaintiff: _model.fundropValue,
+                                notFunPunishmentPlaintiff:
+                                    _model.notfundropValue,
+                                customPunishmentPlaintiff: '',
                               ),
                               ...mapToFirestore(
                                 {
@@ -1763,9 +1961,14 @@ class _FormplaintiffWidgetState extends State<FormplaintiffWidget> {
                                 mainvideo: _model.uploadedFileUrl1,
                                 plaintiff: currentUserDisplayName,
                                 caseNumber: _model.casenumberoutput?.refNumber,
-                                defendantEmail: _model.textController4.text,
+                                defendantEmail:
+                                    _model.defendantEmailController.text,
                                 casetitle: _model.casetitleController.text,
                                 caseCategory: _model.casecategoryValue,
+                                funPunishmentPlaintiff: _model.fundropValue,
+                                notFunPunishmentPlaintiff:
+                                    _model.notfundropValue,
+                                customPunishmentPlaintiff: '',
                               ),
                               ...mapToFirestore(
                                 {
@@ -1783,7 +1986,7 @@ class _FormplaintiffWidgetState extends State<FormplaintiffWidget> {
                               queryBuilder: (usersRecord) => usersRecord.where(
                                 'email',
                                 isEqualTo: valueOrDefault<String>(
-                                  _model.textController4.text,
+                                  _model.defendantEmailController.text,
                                   'no email',
                                 ),
                               ),
@@ -1843,8 +2046,31 @@ class _FormplaintiffWidgetState extends State<FormplaintiffWidget> {
                                 userRefs: [
                                   _model.searchForUser!.first.reference
                                 ],
-                                initialPageName: 'HomePage',
-                                parameterData: {},
+                                initialPageName: 'formDefendant',
+                                parameterData: {
+                                  'plaintiffcaseRef':
+                                      _model.caseDocOutput?.reference,
+                                  'caseref': _model.caseDocOutput?.reference,
+                                  'defendantRef': widget.defendantRef,
+                                },
+                              );
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text(
+                                    'Case ${valueOrDefault<String>(
+                                      _model.caseNumberRef?.refNumber
+                                          ?.toString(),
+                                      '0',
+                                    )} Created!',
+                                    style: TextStyle(
+                                      color: FlutterFlowTheme.of(context)
+                                          .primaryText,
+                                    ),
+                                  ),
+                                  duration: Duration(milliseconds: 4000),
+                                  backgroundColor:
+                                      FlutterFlowTheme.of(context).secondary,
+                                ),
                               );
                               triggerPushNotification(
                                 notificationTitle: 'Case Created',
@@ -1859,7 +2085,7 @@ class _FormplaintiffWidgetState extends State<FormplaintiffWidget> {
 
                             setState(() {
                               FFAppState().DefendantEmail =
-                                  _model.textController4.text;
+                                  _model.defendantEmailController.text;
                             });
 
                             await CasesubRecord.createDoc(currentUserReference!)
@@ -1881,6 +2107,25 @@ class _FormplaintiffWidgetState extends State<FormplaintiffWidget> {
                                 },
                               ),
                             });
+
+                            context.pushNamed(
+                              'formDefendant',
+                              queryParameters: {
+                                'defendantRef': serializeParam(
+                                  widget.defendantRef,
+                                  ParamType.DocumentReference,
+                                ),
+                                'plaintiffcaseRef': serializeParam(
+                                  currentUserDocument?.caseRef,
+                                  ParamType.DocumentReference,
+                                ),
+                                'caseref': serializeParam(
+                                  _model.caseDocOutput?.reference,
+                                  ParamType.DocumentReference,
+                                ),
+                              }.withoutNulls,
+                            );
+
                             if (_shouldSetState) setState(() {});
                           },
                           text: 'Submit',
@@ -1907,6 +2152,13 @@ class _FormplaintiffWidgetState extends State<FormplaintiffWidget> {
                         ),
                       ),
                     ],
+                  ),
+                ),
+                Container(
+                  width: 100.0,
+                  height: 100.0,
+                  decoration: BoxDecoration(
+                    color: FlutterFlowTheme.of(context).secondaryBackground,
                   ),
                 ),
               ],

@@ -2,11 +2,8 @@ import '/app_content/images/images_widget.dart';
 import '/app_content/mainvideo/mainvideo_widget.dart';
 import '/app_content/punishment/punishment_widget.dart';
 import '/app_content/voteballot/voteballot_widget.dart';
-import '/app_content/write_comment/write_comment_widget.dart';
 import '/auth/firebase_auth/auth_util.dart';
 import '/backend/backend.dart';
-import '/components/replies_widget.dart';
-import '/flutter_flow/flutter_flow_animations.dart';
 import '/flutter_flow/flutter_flow_audio_player.dart';
 import '/flutter_flow/flutter_flow_choice_chips.dart';
 import '/flutter_flow/flutter_flow_swipeable_stack.dart';
@@ -15,20 +12,19 @@ import '/flutter_flow/flutter_flow_timer.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
 import '/flutter_flow/form_field_controller.dart';
-import 'case_page_widget.dart' show CasePageWidget;
 import 'package:stop_watch_timer/stop_watch_timer.dart';
+import 'pageedit_widget.dart' show PageeditWidget;
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_card_swiper/flutter_card_swiper.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:share_plus/share_plus.dart';
 
-class CasePageModel extends FlutterFlowModel<CasePageWidget> {
+class PageeditModel extends FlutterFlowModel<PageeditWidget> {
   ///  Local state fields for this page.
 
   int? casepagetab = 1;

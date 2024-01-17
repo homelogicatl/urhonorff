@@ -2,6 +2,7 @@ import '/auth/firebase_auth/auth_util.dart';
 import '/backend/backend.dart';
 import '/backend/firebase_storage/storage.dart';
 import '/flutter_flow/flutter_flow_audio_player.dart';
+import '/flutter_flow/flutter_flow_button_tabbar.dart';
 import '/flutter_flow/flutter_flow_drop_down.dart';
 import '/flutter_flow/flutter_flow_expanded_image_view.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
@@ -26,8 +27,8 @@ class FormDefendantModel extends FlutterFlowModel<FormDefendantWidget> {
   ///  State fields for stateful widgets in this page.
 
   final unfocusNode = FocusNode();
-  // State field(s) for RadioButton widget.
-  FormFieldController<String>? radioButtonValueController;
+  // State field(s) for formselect widget.
+  FormFieldController<String>? formselectValueController;
   bool isDataUploading1 = false;
   FFUploadedFile uploadedLocalFile1 =
       FFUploadedFile(bytes: Uint8List.fromList([]));
@@ -45,14 +46,17 @@ class FormDefendantModel extends FlutterFlowModel<FormDefendantWidget> {
   List<FFUploadedFile> uploadedLocalFiles3 = [];
   List<String> uploadedFileUrls3 = [];
 
-  // State field(s) for Punishments widget.
-  FormFieldController<String>? punishmentsValueController;
-  // State field(s) for notfundrop widget.
-  String? notfundropValue;
-  FormFieldController<String>? notfundropValueController;
+  // State field(s) for TabBar widget.
+  TabController? tabBarController;
+  int get tabBarCurrentIndex =>
+      tabBarController != null ? tabBarController!.index : 0;
+
   // State field(s) for fundrop widget.
   String? fundropValue;
   FormFieldController<String>? fundropValueController;
+  // State field(s) for notfundrop widget.
+  String? notfundropValue;
+  FormFieldController<String>? notfundropValueController;
   // State field(s) for CustomPunishment widget.
   FocusNode? customPunishmentFocusNode;
   TextEditingController? customPunishmentController;
@@ -65,8 +69,6 @@ class FormDefendantModel extends FlutterFlowModel<FormDefendantWidget> {
   CaserefnumberRecord? caseNumberRef;
   // Stores action output result for [Firestore Query - Query a collection] action in Button widget.
   CaserefnumberRecord? casenumberoutput;
-  // Stores action output result for [Backend Call - Create Document] action in Button widget.
-  CasesubRecord? caseDocOutput;
 
   /// Initialization and disposal methods.
 
@@ -74,6 +76,7 @@ class FormDefendantModel extends FlutterFlowModel<FormDefendantWidget> {
 
   void dispose() {
     unfocusNode.dispose();
+    tabBarController?.dispose();
     customPunishmentFocusNode?.dispose();
     customPunishmentController?.dispose();
 
@@ -85,6 +88,5 @@ class FormDefendantModel extends FlutterFlowModel<FormDefendantWidget> {
 
   /// Additional helper methods are added here.
 
-  String? get radioButtonValue => radioButtonValueController?.value;
-  String? get punishmentsValue => punishmentsValueController?.value;
+  String? get formselectValue => formselectValueController?.value;
 }

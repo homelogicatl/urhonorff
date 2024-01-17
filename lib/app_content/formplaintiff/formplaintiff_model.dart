@@ -3,10 +3,10 @@ import '/backend/backend.dart';
 import '/backend/firebase_storage/storage.dart';
 import '/backend/push_notifications/push_notifications_util.dart';
 import '/flutter_flow/flutter_flow_audio_player.dart';
+import '/flutter_flow/flutter_flow_button_tabbar.dart';
 import '/flutter_flow/flutter_flow_drop_down.dart';
 import '/flutter_flow/flutter_flow_expanded_image_view.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
-import '/flutter_flow/flutter_flow_radio_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_video_player.dart';
@@ -24,6 +24,12 @@ import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 
 class FormplaintiffModel extends FlutterFlowModel<FormplaintiffWidget> {
+  ///  Local state fields for this page.
+
+  String finalpunishmentvar = '';
+
+  String dropdowndefaulttvalue = 'test';
+
   ///  State fields for stateful widgets in this page.
 
   final unfocusNode = FocusNode();
@@ -52,14 +58,17 @@ class FormplaintiffModel extends FlutterFlowModel<FormplaintiffWidget> {
   List<FFUploadedFile> uploadedLocalFiles3 = [];
   List<String> uploadedFileUrls3 = [];
 
-  // State field(s) for Punishments widget.
-  FormFieldController<String>? punishmentsValueController;
-  // State field(s) for notfundrop widget.
-  String? notfundropValue;
-  FormFieldController<String>? notfundropValueController;
+  // State field(s) for TabBar widget.
+  TabController? tabBarController;
+  int get tabBarCurrentIndex =>
+      tabBarController != null ? tabBarController!.index : 0;
+
   // State field(s) for fundrop widget.
   String? fundropValue;
   FormFieldController<String>? fundropValueController;
+  // State field(s) for notfundrop widget.
+  String? notfundropValue;
+  FormFieldController<String>? notfundropValueController;
   // State field(s) for CustomPunishment widget.
   FocusNode? customPunishmentFocusNode;
   TextEditingController? customPunishmentController;
@@ -68,10 +77,10 @@ class FormplaintiffModel extends FlutterFlowModel<FormplaintiffWidget> {
   FocusNode? finalPunishmentFocusNode;
   TextEditingController? finalPunishmentController;
   String? Function(BuildContext, String?)? finalPunishmentControllerValidator;
-  // State field(s) for TextField widget.
-  FocusNode? textFieldFocusNode;
-  TextEditingController? textController4;
-  String? Function(BuildContext, String?)? textController4Validator;
+  // State field(s) for DefendantEmail widget.
+  FocusNode? defendantEmailFocusNode;
+  TextEditingController? defendantEmailController;
+  String? Function(BuildContext, String?)? defendantEmailControllerValidator;
   // Stores action output result for [Firestore Query - Query a collection] action in Button widget.
   CaserefnumberRecord? caseNumberRef;
   // Stores action output result for [Firestore Query - Query a collection] action in Button widget.
@@ -90,19 +99,18 @@ class FormplaintiffModel extends FlutterFlowModel<FormplaintiffWidget> {
     casetitleFocusNode?.dispose();
     casetitleController?.dispose();
 
+    tabBarController?.dispose();
     customPunishmentFocusNode?.dispose();
     customPunishmentController?.dispose();
 
     finalPunishmentFocusNode?.dispose();
     finalPunishmentController?.dispose();
 
-    textFieldFocusNode?.dispose();
-    textController4?.dispose();
+    defendantEmailFocusNode?.dispose();
+    defendantEmailController?.dispose();
   }
 
   /// Action blocks are added here.
 
   /// Additional helper methods are added here.
-
-  String? get punishmentsValue => punishmentsValueController?.value;
 }

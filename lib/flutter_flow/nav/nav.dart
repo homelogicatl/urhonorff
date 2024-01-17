@@ -207,6 +207,18 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           builder: (context, params) => NotificationWidget(
             notification: params.getParam('notification', ParamType.Document),
           ),
+        ),
+        FFRoute(
+          name: 'Pageedit',
+          path: '/pageedit',
+          asyncParams: {
+            'caseRef': getDoc(['Users', 'Casesub'], CasesubRecord.fromSnapshot),
+            'notif': getDoc(['Notification'], NotificationRecord.fromSnapshot),
+          },
+          builder: (context, params) => PageeditWidget(
+            caseRef: params.getParam('caseRef', ParamType.Document),
+            notif: params.getParam('notif', ParamType.Document),
+          ),
         )
       ].map((r) => r.toRoute(appStateNotifier)).toList(),
       observers: [routeObserver],

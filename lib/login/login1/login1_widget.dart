@@ -146,6 +146,9 @@ class _Login1WidgetState extends State<Login1Widget>
                               ),
                             ],
                             controller: _model.tabBarController,
+                            onTap: (i) async {
+                              [() async {}, () async {}][i]();
+                            },
                           ),
                         ),
                         Expanded(

@@ -58,10 +58,10 @@ class _MainvideoWidgetState extends State<MainvideoWidget> {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Container(
-            width: 318.0,
+            width: double.infinity,
             height: 50.0,
             decoration: BoxDecoration(
-              color: FlutterFlowTheme.of(context).accent3,
+              color: FlutterFlowTheme.of(context).tertiary,
             ),
             child: Column(
               mainAxisSize: MainAxisSize.max,
@@ -72,6 +72,7 @@ class _MainvideoWidgetState extends State<MainvideoWidget> {
                   style: FlutterFlowTheme.of(context).bodyMedium.override(
                         fontFamily: 'Poppins',
                         color: FlutterFlowTheme.of(context).black600,
+                        fontSize: 20.0,
                       ),
                 ),
               ],

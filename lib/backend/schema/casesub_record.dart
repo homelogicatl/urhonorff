@@ -76,16 +76,6 @@ class CasesubRecord extends FirestoreRecord {
   String get punishmentSelection => _punishmentSelection ?? '';
   bool hasPunishmentSelection() => _punishmentSelection != null;
 
-  // "FunPunishment" field.
-  List<String>? _funPunishment;
-  List<String> get funPunishment => _funPunishment ?? const [];
-  bool hasFunPunishment() => _funPunishment != null;
-
-  // "notFunPunishment" field.
-  List<String>? _notFunPunishment;
-  List<String> get notFunPunishment => _notFunPunishment ?? const [];
-  bool hasNotFunPunishment() => _notFunPunishment != null;
-
   // "CaseEnded" field.
   bool? _caseEnded;
   bool get caseEnded => _caseEnded ?? false;
@@ -198,6 +188,55 @@ class CasesubRecord extends FirestoreRecord {
   List<String> get caseParticipants => _caseParticipants ?? const [];
   bool hasCaseParticipants() => _caseParticipants != null;
 
+  // "FunPunishmentPlaintiff" field.
+  String? _funPunishmentPlaintiff;
+  String get funPunishmentPlaintiff => _funPunishmentPlaintiff ?? '';
+  bool hasFunPunishmentPlaintiff() => _funPunishmentPlaintiff != null;
+
+  // "notFunPunishmentPlaintiff" field.
+  String? _notFunPunishmentPlaintiff;
+  String get notFunPunishmentPlaintiff => _notFunPunishmentPlaintiff ?? '';
+  bool hasNotFunPunishmentPlaintiff() => _notFunPunishmentPlaintiff != null;
+
+  // "DefendantfunPunishment" field.
+  String? _defendantfunPunishment;
+  String get defendantfunPunishment => _defendantfunPunishment ?? '';
+  bool hasDefendantfunPunishment() => _defendantfunPunishment != null;
+
+  // "defendantnotsofunPunishment" field.
+  String? _defendantnotsofunPunishment;
+  String get defendantnotsofunPunishment => _defendantnotsofunPunishment ?? '';
+  bool hasDefendantnotsofunPunishment() => _defendantnotsofunPunishment != null;
+
+  // "defendantcustomPunishment" field.
+  String? _defendantcustomPunishment;
+  String get defendantcustomPunishment => _defendantcustomPunishment ?? '';
+  bool hasDefendantcustomPunishment() => _defendantcustomPunishment != null;
+
+  // "customPunishmentPlaintiff" field.
+  String? _customPunishmentPlaintiff;
+  String get customPunishmentPlaintiff => _customPunishmentPlaintiff ?? '';
+  bool hasCustomPunishmentPlaintiff() => _customPunishmentPlaintiff != null;
+
+  // "punishmentsubmittalplaintiff" field.
+  String? _punishmentsubmittalplaintiff;
+  String get punishmentsubmittalplaintiff =>
+      _punishmentsubmittalplaintiff ?? '';
+  bool hasPunishmentsubmittalplaintiff() =>
+      _punishmentsubmittalplaintiff != null;
+
+  // "defendantPunishmentSubmittal" field.
+  String? _defendantPunishmentSubmittal;
+  String get defendantPunishmentSubmittal =>
+      _defendantPunishmentSubmittal ?? '';
+  bool hasDefendantPunishmentSubmittal() =>
+      _defendantPunishmentSubmittal != null;
+
+  // "FunPunishments" field.
+  List<String>? _funPunishments;
+  List<String> get funPunishments => _funPunishments ?? const [];
+  bool hasFunPunishments() => _funPunishments != null;
+
   DocumentReference get parentReference => reference.parent.parent!;
 
   void _initializeFields() {
@@ -213,8 +252,6 @@ class CasesubRecord extends FirestoreRecord {
     _images = getDataList(snapshotData['images']);
     _audiolist = getDataList(snapshotData['audiolist']);
     _punishmentSelection = snapshotData['PunishmentSelection'] as String?;
-    _funPunishment = getDataList(snapshotData['FunPunishment']);
-    _notFunPunishment = getDataList(snapshotData['notFunPunishment']);
     _caseEnded = snapshotData['CaseEnded'] as bool?;
     _caseList = getDataList(snapshotData['caseList']);
     _caseNumber = castToType<int>(snapshotData['CaseNumber']);
@@ -238,6 +275,21 @@ class CasesubRecord extends FirestoreRecord {
     _imageboolean = getDataList(snapshotData['imageboolean']);
     _caseCategory = snapshotData['CaseCategory'] as String?;
     _caseParticipants = getDataList(snapshotData['CaseParticipants']);
+    _funPunishmentPlaintiff = snapshotData['FunPunishmentPlaintiff'] as String?;
+    _notFunPunishmentPlaintiff =
+        snapshotData['notFunPunishmentPlaintiff'] as String?;
+    _defendantfunPunishment = snapshotData['DefendantfunPunishment'] as String?;
+    _defendantnotsofunPunishment =
+        snapshotData['defendantnotsofunPunishment'] as String?;
+    _defendantcustomPunishment =
+        snapshotData['defendantcustomPunishment'] as String?;
+    _customPunishmentPlaintiff =
+        snapshotData['customPunishmentPlaintiff'] as String?;
+    _punishmentsubmittalplaintiff =
+        snapshotData['punishmentsubmittalplaintiff'] as String?;
+    _defendantPunishmentSubmittal =
+        snapshotData['defendantPunishmentSubmittal'] as String?;
+    _funPunishments = getDataList(snapshotData['FunPunishments']);
   }
 
   static Query<Map<String, dynamic>> collection([DocumentReference? parent]) =>
@@ -302,6 +354,14 @@ Map<String, dynamic> createCasesubRecordData({
   String? defendantpunishmentselection,
   bool? uservoted,
   String? caseCategory,
+  String? funPunishmentPlaintiff,
+  String? notFunPunishmentPlaintiff,
+  String? defendantfunPunishment,
+  String? defendantnotsofunPunishment,
+  String? defendantcustomPunishment,
+  String? customPunishmentPlaintiff,
+  String? punishmentsubmittalplaintiff,
+  String? defendantPunishmentSubmittal,
 }) {
   final firestoreData = mapToFirestore(
     <String, dynamic>{
@@ -327,6 +387,14 @@ Map<String, dynamic> createCasesubRecordData({
       'defendantpunishmentselection': defendantpunishmentselection,
       'uservoted': uservoted,
       'CaseCategory': caseCategory,
+      'FunPunishmentPlaintiff': funPunishmentPlaintiff,
+      'notFunPunishmentPlaintiff': notFunPunishmentPlaintiff,
+      'DefendantfunPunishment': defendantfunPunishment,
+      'defendantnotsofunPunishment': defendantnotsofunPunishment,
+      'defendantcustomPunishment': defendantcustomPunishment,
+      'customPunishmentPlaintiff': customPunishmentPlaintiff,
+      'punishmentsubmittalplaintiff': punishmentsubmittalplaintiff,
+      'defendantPunishmentSubmittal': defendantPunishmentSubmittal,
     }.withoutNulls,
   );
 
@@ -351,8 +419,6 @@ class CasesubRecordDocumentEquality implements Equality<CasesubRecord> {
         listEquality.equals(e1?.images, e2?.images) &&
         listEquality.equals(e1?.audiolist, e2?.audiolist) &&
         e1?.punishmentSelection == e2?.punishmentSelection &&
-        listEquality.equals(e1?.funPunishment, e2?.funPunishment) &&
-        listEquality.equals(e1?.notFunPunishment, e2?.notFunPunishment) &&
         e1?.caseEnded == e2?.caseEnded &&
         listEquality.equals(e1?.caseList, e2?.caseList) &&
         e1?.caseNumber == e2?.caseNumber &&
@@ -374,7 +440,16 @@ class CasesubRecordDocumentEquality implements Equality<CasesubRecord> {
         e1?.uservoted == e2?.uservoted &&
         listEquality.equals(e1?.imageboolean, e2?.imageboolean) &&
         e1?.caseCategory == e2?.caseCategory &&
-        listEquality.equals(e1?.caseParticipants, e2?.caseParticipants);
+        listEquality.equals(e1?.caseParticipants, e2?.caseParticipants) &&
+        e1?.funPunishmentPlaintiff == e2?.funPunishmentPlaintiff &&
+        e1?.notFunPunishmentPlaintiff == e2?.notFunPunishmentPlaintiff &&
+        e1?.defendantfunPunishment == e2?.defendantfunPunishment &&
+        e1?.defendantnotsofunPunishment == e2?.defendantnotsofunPunishment &&
+        e1?.defendantcustomPunishment == e2?.defendantcustomPunishment &&
+        e1?.customPunishmentPlaintiff == e2?.customPunishmentPlaintiff &&
+        e1?.punishmentsubmittalplaintiff == e2?.punishmentsubmittalplaintiff &&
+        e1?.defendantPunishmentSubmittal == e2?.defendantPunishmentSubmittal &&
+        listEquality.equals(e1?.funPunishments, e2?.funPunishments);
   }
 
   @override
@@ -391,8 +466,6 @@ class CasesubRecordDocumentEquality implements Equality<CasesubRecord> {
         e?.images,
         e?.audiolist,
         e?.punishmentSelection,
-        e?.funPunishment,
-        e?.notFunPunishment,
         e?.caseEnded,
         e?.caseList,
         e?.caseNumber,
@@ -414,7 +487,16 @@ class CasesubRecordDocumentEquality implements Equality<CasesubRecord> {
         e?.uservoted,
         e?.imageboolean,
         e?.caseCategory,
-        e?.caseParticipants
+        e?.caseParticipants,
+        e?.funPunishmentPlaintiff,
+        e?.notFunPunishmentPlaintiff,
+        e?.defendantfunPunishment,
+        e?.defendantnotsofunPunishment,
+        e?.defendantcustomPunishment,
+        e?.customPunishmentPlaintiff,
+        e?.punishmentsubmittalplaintiff,
+        e?.defendantPunishmentSubmittal,
+        e?.funPunishments
       ]);
 
   @override

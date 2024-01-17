@@ -70,43 +70,12 @@ class _ProfileWidgetState extends State<ProfileWidget> {
           child: Column(
             mainAxisSize: MainAxisSize.max,
             children: [
-              StreamBuilder<List<NotificationRecord>>(
-                stream: queryNotificationRecord(
-                  singleRecord: true,
+              Container(
+                width: double.infinity,
+                height: 50.0,
+                decoration: BoxDecoration(
+                  color: FlutterFlowTheme.of(context).primary,
                 ),
-                builder: (context, snapshot) {
-                  // Customize what your widget looks like when it's loading.
-                  if (!snapshot.hasData) {
-                    return Center(
-                      child: SizedBox(
-                        width: 50.0,
-                        height: 50.0,
-                        child: CircularProgressIndicator(
-                          valueColor: AlwaysStoppedAnimation<Color>(
-                            Color(0xFFFF7100),
-                          ),
-                        ),
-                      ),
-                    );
-                  }
-                  List<NotificationRecord> containerNotificationRecordList =
-                      snapshot.data!;
-                  // Return an empty Container when the item does not exist.
-                  if (snapshot.data!.isEmpty) {
-                    return Container();
-                  }
-                  final containerNotificationRecord =
-                      containerNotificationRecordList.isNotEmpty
-                          ? containerNotificationRecordList.first
-                          : null;
-                  return Container(
-                    width: double.infinity,
-                    height: 50.0,
-                    decoration: BoxDecoration(
-                      color: FlutterFlowTheme.of(context).primary,
-                    ),
-                  );
-                },
               ),
               Container(
                 width: double.infinity,

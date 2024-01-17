@@ -27,6 +27,10 @@ class FFAppState extends ChangeNotifier {
       _notificationopen =
           prefs.getBool('ff_notificationopen') ?? _notificationopen;
     });
+    _safeInit(() {
+      _DefendantForm =
+          prefs.getString('ff_DefendantForm')?.ref ?? _DefendantForm;
+    });
   }
 
   void update(VoidCallback callback) {
@@ -131,6 +135,15 @@ class FFAppState extends ChangeNotifier {
   String get PlaintiffEmail => _PlaintiffEmail;
   set PlaintiffEmail(String _value) {
     _PlaintiffEmail = _value;
+  }
+
+  DocumentReference? _DefendantForm;
+  DocumentReference? get DefendantForm => _DefendantForm;
+  set DefendantForm(DocumentReference? _value) {
+    _DefendantForm = _value;
+    _value != null
+        ? prefs.setString('ff_DefendantForm', _value.path)
+        : prefs.remove('ff_DefendantForm');
   }
 }
 
